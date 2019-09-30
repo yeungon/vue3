@@ -1,34 +1,49 @@
 <template>
 <div id="app">
    <div class="wrapper clearfix">
-            <players/>
-            <controls/>
-            <dices/>          
-            
-            
+            <players
+            :scorePlayer = "scorePlayer"
+            :currentScore = "currentScore"
+            :activePlayer = "activePlayer"
+
+            />
+            <controls
+            @handleEvent="handleEvent"
+            />
+            <dices/>
+            <popup-rule/>
     </div>
  </div>
 </template>
 
 <script>
-
-
 import Players from "@/components/Players";
 import Controls from "@/components/Controls";
 import Dices from "@/components/Dices";
+import PopupRule from "@/components/PopupRule";
 
 export default {
   name: 'app',
   data: function(){
     return {
-      
+        activePlayer: 1,
+        scorePlayer: [10, 11],
+        currentScore: 50
       }
   },
   components: {
    Players,
    Controls,
-   Dices
+   Dices,
+   PopupRule
   },
+
+  methods: {
+    handleEvent: function(){
+      console.log("từ app")
+    }
+  }
+
   
 }
 </script>

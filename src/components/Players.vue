@@ -1,20 +1,20 @@
 <template>
     <div class="wrapper-players">
-        <div class="player-panel winner">
-                <div class="player-name">Player 1</div>
-                <div class="player-score">43</div>
+        <div class="player-panel" :class="{active: activePlayer ==0}">
+                <div class="player-name" >Player 1</div>
+                <div class="player-score">{{scorePlayer[0]}}</div>
                 <div class="player-current-box">
                     <div class="player-current-label">Current</div>
-                    <div class="player-current-score">11</div>
+                    <div class="player-current-score">{{activePlayer === 0 ? currentScore: 0}}</div>
                 </div>
             </div>
             
-            <div class="player-panel">
-                <div class="player-name">Player 2</div>
-                <div class="player-score">72</div>
+            <div class="player-panel" :class="{active: activePlayer ==1}">
+                <div class="player-name" >Player 2</div>
+                <div class="player-score">{{scorePlayer[1]}}</div>
                 <div class="player-current-box">
                     <div class="player-current-label">Current</div>
-                    <div class="player-current-score">0</div>
+                    <div class="player-current-score">{{activePlayer === 1 ? currentScore: 0}}</div>
                 </div>
         </div>
     </div>
@@ -24,6 +24,9 @@
 <script>
 export default {
     name:"Players",
+
+    props: ["scorePlayer", "activePlayer", "currentScore"],
+
     data: function(){
         return {
 
@@ -70,12 +73,13 @@ export default {
 .active .player-name { font-weight: 300; }
 
 .active .player-name::after {
-    content: "\2022";
-    font-size: 47px;
+    content: "...is playing";
+    font-size: 15px;
+    font-weight: 700;
     position: absolute;
-    color: #42b983;
-    top: -7px;
-    right: 10px;
+    color: #4CAF50;
+    top: -15px;
+    right: 0px;
     
 }
 

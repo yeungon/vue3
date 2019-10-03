@@ -8,10 +8,15 @@
 
             />
             <controls
-            @handleEvent="handleEvent"
+            @handleEvent="handleEventnewgame"
             />
-            <dices/>
-            <popup-rule/>
+            <dices
+            :dices = "dices"
+            />
+            <popup-rule
+            :isOpenPopup = "isOpenPopup"
+            @confirmpopup = "confirmpopup"
+            />
     </div>
  </div>
 </template>
@@ -26,9 +31,13 @@ export default {
   name: 'app',
   data: function(){
     return {
+        isPlaying: false,
         activePlayer: 1,
+        isOpenPopup: false,
         scorePlayer: [10, 11],
-        currentScore: 50
+        currentScore: 50,
+        dices: [1, 6]
+
       }
   },
   components: {
@@ -39,8 +48,19 @@ export default {
   },
 
   methods: {
-    handleEvent: function(){
-      console.log("từ app")
+    handleEventnewgame: function(){
+      this.isOpenPopup = true;
+      console.log("From app.vue")
+    },
+    confirmpopup: function(){      
+      this.isOpenPopup = false;
+      this.isPlaying = true;
+      this.activePlayer = 0;
+      this.scorePlayer = [0, 0];
+      this.currentScore = 0;
+      this.dices = [0, 0]
+
+      console.log("Receive emit event from PopupRule.vue. Agree with the rule :-)");
     }
   }
 

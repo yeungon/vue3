@@ -4,7 +4,9 @@
     @click="newGame"
     ><i class="ion-ios-plus-outline"
     ></i>New game</button>
-    <button class="control btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
+    <button
+    @click = "rolldice"
+    class="control btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
     <button class="control btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
     <input type="number" placeholder="Final score" class="final-score">
 </div>
@@ -23,6 +25,11 @@ export default {
 
             this.$emit("handleEvent");
 
+        },
+        rolldice: function(){
+            
+            this.$emit("rolldicetoApp");
+            console.log("Emit the event when clicking on the rolldice");
         }
     }
 }

@@ -9,13 +9,14 @@
             />
             <controls
             @handleEvent="handleEventnewgame"
+            @rolldicetoApp = "rolldiceonApp"
             />
             <dices
-            :dices = "dices"
+            :dices = "dices"            
             />
             <popup-rule
             :isOpenPopup = "isOpenPopup"
-            @confirmpopup = "confirmpopup"
+            @confirmpopup = "confirmpopuponApp"
             />
     </div>
  </div>
@@ -52,15 +53,51 @@ export default {
       this.isOpenPopup = true;
       console.log("From app.vue")
     },
-    confirmpopup: function(){      
+    confirmpopuponApp: function(){      
       this.isOpenPopup = false;
       this.isPlaying = true;
       this.activePlayer = 0;
       this.scorePlayer = [0, 0];
       this.currentScore = 0;
-      this.dices = [0, 0]
+      this.dices = [1, 1]
 
       console.log("Receive emit event from PopupRule.vue. Agree with the rule :-)");
+    },
+
+    nextPlayer: function(){
+      this.activePlayer = this.activePlayer === 0 ? 1: 0;
+
+      this.currentScore = 0;
+
+    },
+
+    rolldiceonApp: function(){
+
+      console.log("Received the rolldice event");
+
+      if(this.isPlaying){
+        let dice1 = Math.floor(Math.random() * 6) + 1;
+
+        let dice2 = Math.floor(Math.random() * 6) + 1;
+
+        this.dices = [dice1, dice2];
+
+        if(dice1 === 1 || dice2 === 1){
+          setTimeout(()=>{
+              alert(`The player ${this.activePlayer + 1} sadly get 1 in one of your dices, then you fail! Sorry`)
+          }, 10)
+          
+          this.nextPlayer();
+
+        }else{
+          this.currentScore = this.currentScore + dice1 + dice2;
+        }
+
+        console.log(dice1, dice2);
+
+      }else{
+        alert("You need to click on the new game first")
+      }
     }
   }
 

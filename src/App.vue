@@ -8,8 +8,11 @@
 
             />
             <controls
+            :finalScore = "finalScore"
             @handleEvent="handleEventnewgame"
             @rolldicetoApp = "rolldiceonApp"
+            @handleHoldscore = "handleHoldscoreApp"
+            @handleFinalScore = "handleFinalScoreApp"
             />
             <dices
             :dices = "dices"            
@@ -37,7 +40,8 @@ export default {
         isOpenPopup: false,
         scorePlayer: [10, 11],
         currentScore: 50,
-        dices: [1, 6]
+        dices: [1, 6],
+        finalScore: 100
 
       }
   },
@@ -49,6 +53,32 @@ export default {
   },
 
   methods: {
+
+    handleFinalScoreApp(e){
+      console.log(e.target.value + " " + parseInt(e.target.value));
+    },
+
+    handleHoldscoreApp: function(){
+
+      if(this.isPlaying){
+        // Destructure object
+        let {scorePlayer, activePlayer, currentScore} = this;
+
+        let scoreOld = scorePlayer[activePlayer];
+
+        // Another method to clone array using spread operator: let a = [...b], $set is Vue method
+
+        this.$set(this.scorePlayer, activePlayer, scoreOld + currentScore);
+
+        this.nextPlayer();
+
+      }else{
+
+        alert ("Please click on the New game button first");
+
+      }
+    },
+
     handleEventnewgame: function(){
       this.isOpenPopup = true;
       console.log("From app.vue")
@@ -76,32 +106,32 @@ export default {
       console.log("Received the rolldice event");
 
       if(this.isPlaying){
-        let dice1 = Math.floor(Math.random() * 6) + 1;
 
-        let dice2 = Math.floor(Math.random() * 6) + 1;
+          let dice1 = Math.floor(Math.random() * 6) + 1;
 
-        this.dices = [dice1, dice2];
+          let dice2 = Math.floor(Math.random() * 6) + 1;
 
-        if(dice1 === 1 || dice2 === 1){
-          setTimeout(()=>{
-              alert(`The player ${this.activePlayer + 1} sadly get 1 in one of your dices, then you fail! Sorry`)
-          }, 10)
-          
-          this.nextPlayer();
+          this.dices = [dice1, dice2];
 
-        }else{
-          this.currentScore = this.currentScore + dice1 + dice2;
-        }
+          if(dice1 === 1 || dice2 === 1){
+   
+            setTimeout(()=>{
+                alert(`The player ${this.activePlayer} sadly get 1 in one of your dices, then you fail! Sorry`)
+            }, 10)
+            
+            this.nextPlayer();
 
-        console.log(dice1, dice2);
+          }else{
+            this.currentScore = this.currentScore + dice1 + dice2;
+          }
+
+          console.log(dice1, dice2);
 
       }else{
         alert("You need to click on the new game first")
       }
     }
-  }
-
-  
+  }   
 }
 </script>
 

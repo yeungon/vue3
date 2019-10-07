@@ -4,11 +4,17 @@
     @click="newGame"
     ><i class="ion-ios-plus-outline"
     ></i>New game</button>
+
     <button
     @click = "rolldice"
     class="control btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
-    <button class="control btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
-    <input type="number" placeholder="Final score" class="final-score">
+    <button 
+    @click = "$emit('handleHoldscore')"
+    class="control btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
+    <input 
+    :value = "finalScore"
+    @input = "$emit('handleFinalScore', $event)"
+    type="number" placeholder="Final score" class="final-score">
 </div>
 </template>
 
@@ -20,6 +26,9 @@ export default {
 
         }
     },
+
+    props:["finalScore"],
+
     methods: {
         newGame: function(){
 
@@ -31,6 +40,10 @@ export default {
             this.$emit("rolldicetoApp");
             console.log("Emit the event when clicking on the rolldice");
         }
+    },
+    created: function(){
+
+        console.log("finalScore:" + this.finalScore)
     }
 }
 </script>

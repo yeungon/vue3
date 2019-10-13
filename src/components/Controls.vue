@@ -12,6 +12,7 @@
     @click = "$emit('handleHoldscore')"
     class="control btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
     <input 
+    :disabled = "isPlaying"
     :value = "finalScore"
     @input = "$emit('handleFinalScore', $event)"
     type="number" placeholder="Final score" class="final-score">
@@ -27,7 +28,7 @@ export default {
         }
     },
 
-    props:["finalScore"],
+    props:["finalScore", "isPlaying"],
 
     methods: {
         newGame: function(){

@@ -1,7 +1,10 @@
 <template>
     <div class="wrapper-players">
-        <div class="player-panel" :class="{active: activePlayer ==0}">
-                <div class="player-name" >Player 1</div>
+        <div class="player-panel" :class="{
+            active: activePlayer == 0 && !this.isWinner,
+            winner: activePlayer == 0 && this.isWinner
+            }">
+                <div class="player-name" >{{getNamePlayer(0)}}</div>
                 <div class="player-score">{{scorePlayer[0]}}</div>
                 <div class="player-current-box">
                     <div class="player-current-label">Current</div>
@@ -9,8 +12,11 @@
                 </div>
             </div>
             
-            <div class="player-panel" :class="{active: activePlayer ==1}">
-                <div class="player-name" >Player 2</div>
+            <div class="player-panel" :class="{
+            active: activePlayer == 1 && !this.isWinner,
+            winner: activePlayer == 1 && this.isWinner
+            }">
+                <div class="player-name" >{{getNamePlayer(1)}}</div>
                 <div class="player-score">{{scorePlayer[1]}}</div>
                 <div class="player-current-box">
                     <div class="player-current-label">Current</div>
@@ -25,11 +31,23 @@
 export default {
     name:"Players",
 
-    props: ["scorePlayer", "activePlayer", "currentScore"],
+    props: ["scorePlayer", "activePlayer", "currentScore", "isWinner"],
 
     data: function(){
         return {
 
+        }
+    },
+
+    methods: {
+        getNamePlayer: function(index){
+
+            var defaultName = 'Player' + (index + 1);
+
+            if(this.activePlayer === index && this.isWinner){
+                defaultName = "Winner";
+            }
+            return defaultName;
         }
     }    
 }

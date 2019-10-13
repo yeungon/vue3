@@ -5,10 +5,12 @@
             :scorePlayer = "scorePlayer"
             :currentScore = "currentScore"
             :activePlayer = "activePlayer"
+            :isWinner = "isWinner"
 
             />
             <controls
             :finalScore = "finalScore"
+            :isPlaying = "isPlaying"
             @handleEvent="handleEventnewgame"
             @rolldicetoApp = "rolldiceonApp"
             @handleHoldscore = "handleHoldscoreApp"
@@ -38,10 +40,10 @@ export default {
         isPlaying: false,
         activePlayer: 1,
         isOpenPopup: false,
-        scorePlayer: [10, 11],
-        currentScore: 50,
+        scorePlayer: [0, 0],
+        currentScore: 0,
         dices: [1, 6],
-        finalScore: 100
+        finalScore: 20
 
       }
   },
@@ -52,30 +54,60 @@ export default {
    PopupRule
   },
 
+  computed: {
+    isWinner: function(){
+
+      let {scorePlayer, finalScore} = this;
+
+      if(scorePlayer[0] >= finalScore || scorePlayer[1] >= finalScore){
+
+        this.isPlaying = false;
+
+        return true;
+      }
+
+      return false;
+    }
+  },
   methods: {
 
     handleFinalScoreApp(e){
+
       console.log(e.target.value + " " + parseInt(e.target.value));
+
+      var number = parseInt(e.target.value);
+
+      if(isNaN(number)){
+
+        this.finalScore = "";
+      }else{
+
+        this.finalScore = number;
+      }
+
     },
 
     handleHoldscoreApp: function(){
 
       if(this.isPlaying){
+
         // Destructure object
         let {scorePlayer, activePlayer, currentScore} = this;
 
         let scoreOld = scorePlayer[activePlayer];
 
-        // Another method to clone array using spread operator: let a = [...b], $set is Vue method
+        // Another method to clone array using spread operator: let a = [...b], $set is Vue method helpping us to clone the array
 
         this.$set(this.scorePlayer, activePlayer, scoreOld + currentScore);
 
-        this.nextPlayer();
+        if(!this.isWinner){
+
+          this.nextPlayer();  
+        }
 
       }else{
 
         alert ("Please click on the New game button first");
-
       }
     },
 
